@@ -1,6 +1,7 @@
 import Node from '../lib/Node.js'
 import { Sprite } from '../lib/Sprite.js'
 import { Card } from './Card.js'
+import {Label} from '../lib/Label.js'
 
 var cardHolder = [
     {
@@ -56,11 +57,18 @@ var cardHolder = [
 ]
 
 export class Game extends Node {
-    constructor(){
-    }
     init() {
         this._initBackGround()
         this._initCard()
+        this.initLabel()
+    }
+    initLabel(){
+        var label=new Label('Score: ',50,'red')
+        this.addChild(label)
+        var score = new Label(10000,50)
+        score.x=150
+        score.ele.id="score"
+        this.addChild(score)
     }
     _initBackGround() {
         var bg = new Sprite('./img/trucxanh_bg.jpg')
@@ -77,7 +85,7 @@ export class Game extends Node {
                     var randCard = Math.floor(Math.random() * cardHolder.length);
                 } while (cardHolder[randCard].available == 0&&cardHolder[randCard].value!==undefined);
                 cardHolder[randCard].available--;
-                console.log('Shuffle card value '+index +': '+cardHolder[randCard].value)
+                console.log('Shuffle card value'+index+': '+cardHolder[randCard].value)
                 var card = new Card(cardHolder[randCard].img,index,cardHolder[randCard].value);
                 card.x = j * 100;
                 card.y = i * 100;
