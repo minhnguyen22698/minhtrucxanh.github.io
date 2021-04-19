@@ -61,6 +61,12 @@ export class Game extends Node {
         this._initBackGround()
         this._initCard()
         this.initLabel()
+        // var btn =document.createElement('button')
+        // btn.innerHTML='Play again'
+        // btn.addEventListener('click',()=>{location.reload()})
+        // btn.style.zIndex='99'
+        // btn.style.position='relative'
+        // document.body.appendChild(btn)
     }
     initLabel(){
         var label=new Label('Score: ',50,'red')
@@ -93,6 +99,5 @@ export class Game extends Node {
                 this.addChild(card);
             }
         }
-
     }
 }

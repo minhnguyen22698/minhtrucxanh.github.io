@@ -3,6 +3,8 @@ import { Sprite } from '../lib/Sprite.js';
 import { Label } from '../lib/Label.js'
 var listClick = [];
 var parentNode = [];
+var score=10000;
+var matched=0;
 
 export class Card extends Node {
     constructor(src, index, value) {
@@ -11,7 +13,6 @@ export class Card extends Node {
         this._src = 'testing'
         this._index = '';
         this._value = '';
-        this._score = 10000;
         if (index) this.index = index
         if (value) this.value = value
         this._width = 50;
@@ -21,7 +22,7 @@ export class Card extends Node {
         super._initElement();
         this._initImage(src);
         this._initCover();
-        // this._initScore();
+
     }
     get src() {
         return this._src
@@ -41,12 +42,6 @@ export class Card extends Node {
     set value(val) {
         this._value = val
         this.ele.value = val
-    }
-    get score() {
-        return this._score
-    }
-    set score(val) {
-        this._score = val
     }
     _initCover() {
         var label = new Label(this.index)
@@ -74,32 +69,37 @@ export class Card extends Node {
         img.y = 100;
         this.addChild(img)
     }
-    
+    setScore(val){
+        score=val
+        document.getElementById('score').innerHTML=score
+        if(matched==10){
+            alert('You win')
+        }else if(score==0){
+            alert('You lose')
+        }
+    }
     onClickCard(cover) {
-        // if (listClick.length < 2) {
+         if (listClick.length >= 2) {return}
         cover.active = false;
         parentNode.push(this);
         listClick.push(cover);
         if (parentNode.length == 2) {
             if (parentNode[0]._value === parentNode[1]._value) {
                 setTimeout(() => {
+                    matched++
                     parentNode[0].active = false;
                     parentNode[1].active = false;
-                    var score = this.score + 1000
-                    this.setScore(score)
                     parentNode = []; listClick = []
+                    this.setScore(score+1000)
                 }, 750);
             } else {
                 setTimeout(() => {
                     listClick[0].active = true;
                     listClick[1].active = true;
-                    this.score=500
                     parentNode = []; listClick = []
+                    this.setScore(score-500)
                 }, 750);
             }
-            console.log(this.score)
         }
     }
-
-
 }
